@@ -19,7 +19,7 @@ Site.Module = Site.Module || {};
         camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
         //(FOV [deg], aspect ratio, near clipping plane/render distance, far clipping plane/render distance)
 
-        renderer = new THREE.WebGLRenderer();
+        renderer = new THREE.WebGLRenderer({antialias:true});
         renderer.setSize( window.innerWidth, window.innerHeight ); //.setSize( width/2, height/2, updateStyle = false ) renders at half resolution
         document.body.appendChild( renderer.domElement );
 
