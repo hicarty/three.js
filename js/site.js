@@ -27,7 +27,16 @@ Site.Module = Site.Module || {};
         var cube;
         (function addCube() {
             var geometry = new THREE.BoxGeometry( 1, 1, 1 ); // vertices, faces
-            var material = new THREE.MeshBasicMaterial( { color: 0x888888 } ); // green material
+            var neheTexture = new THREE.ImageUtils.loadTexture("/img/transpose_logo@2x.png");
+            var materials = [ 
+                new THREE.MeshBasicMaterial({color:0x00f600}), 
+                new THREE.MeshBasicMaterial({color:0x08F808}), 
+                new THREE.MeshBasicMaterial({color:0x0000FF}), 
+                new THREE.MeshBasicMaterial({color:0xFFFF00}), 
+                new THREE.MeshBasicMaterial({color:0x00FFFF}), 
+                new THREE.MeshBasicMaterial({color:0xFFFFFF}) 
+            ];
+            var material = new THREE.MeshFaceMaterial(materials);
             cube = new THREE.Mesh( geometry, material ); // applies material to geometry
             scene.add( cube ); //add at co-ordinate(0,0,0)
         })();
@@ -36,7 +45,7 @@ Site.Module = Site.Module || {};
         var line;
         (function addLine() {
             var geometry = new THREE.Geometry();
-            geometry.vertices.push(new THREE.Vector3( -1, 0, 0) );
+            geometry.vertices.push(new THREE.Vector3( -2, 1, 0) );
             geometry.vertices.push(new THREE.Vector3( 0, 1, 0) );
             geometry.vertices.push(new THREE.Vector3( 1, 0, 0) );
 
@@ -53,11 +62,11 @@ Site.Module = Site.Module || {};
             geometry.vertices.push(new THREE.Vector3(-1.0, -1.0, 0.0)); 
             geometry.vertices.push(new THREE.Vector3( 1.0, -1.0, 0.0)); 
             geometry.faces.push(new THREE.Face3(0, 1, 2)); 
-            geometry.faces[0].vertexColors[0] = new THREE.Color(0xFF0000); 
-            geometry.faces[0].vertexColors[1] = new THREE.Color(0x00FF00); 
-            geometry.faces[0].vertexColors[2] = new THREE.Color(0x0000FF);
+            geometry.faces[0].vertexColors[0] = new THREE.Color(0xb60be9); 
+            geometry.faces[0].vertexColors[1] = new THREE.Color(0xee02be); 
+            geometry.faces[0].vertexColors[2] = new THREE.Color(0x00f600);
 
-            var material = new THREE.MeshBasicMaterial({ vertexColors:THREE.VertexColors, side:THREE.DoubleSide });
+            var material = new THREE.MeshBasicMaterial({ vertexColors:THREE.VertexColors, side:THREE.DoubleSide }); //Vertex Colors
             triangle = new THREE.Mesh(geometry, material); 
             triangle.position.set(-1.5, 0.0, 4.0); 
             scene.add(triangle); 
@@ -73,7 +82,7 @@ Site.Module = Site.Module || {};
             // ANIMATE
             cube.rotation.x += 0.01;
             cube.rotation.y += 0.01;
-            triangle.rotation.x += 0.01;
+            cube.rotation.z += 0.01;
             triangle.rotation.y += 0.01;
             renderScene();
         }
