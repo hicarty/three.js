@@ -6,24 +6,25 @@ Site.Module = Site.Module || {};
     var scene;
     var camera;
     var renderer;
-    var cube;
 
     (function Main() {
         initScene();
         renderScene();
-        animate();
     })();
 
     function initScene() {
+        canvasWidth = window.innerWidth; 
+        canvasHeight = window.innerHeight;
         scene = new THREE.Scene();
-        camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+        camera = new THREE.PerspectiveCamera( 75, canvasWidth / canvasHeight, 0.1, 1000 );
         //(FOV [deg], aspect ratio, near clipping plane/render distance, far clipping plane/render distance)
 
         renderer = new THREE.WebGLRenderer({antialias:true});
-        renderer.setSize( window.innerWidth, window.innerHeight ); //.setSize( width/2, height/2, updateStyle = false ) renders at half resolution
+        renderer.setSize( canvasWidth, canvasHeight ); //.setSize( width/2, height/2, updateStyle = false ) renders at half resolution
         document.body.appendChild( renderer.domElement );
 
         // CUBE
+        var cube;
         (function addCube() {
             var geometry = new THREE.BoxGeometry( 1, 1, 1 ); // vertices, faces
             var material = new THREE.MeshBasicMaterial( { color: 0x888888 } ); // green material
@@ -32,6 +33,7 @@ Site.Module = Site.Module || {};
         })();
 
         // LINE
+        var line;
         (function addLine() {
             var geometry = new THREE.Geometry();
             geometry.vertices.push(new THREE.Vector3( -1, 0, 0) );
@@ -39,28 +41,48 @@ Site.Module = Site.Module || {};
             geometry.vertices.push(new THREE.Vector3( 1, 0, 0) );
 
             var material = new THREE.LineBasicMaterial( { color: 0x00f600 } );
-            var line = new THREE.Line( geometry, material );
+            line = new THREE.Line( geometry, material );
             scene.add( line );
+        })();
+
+        // TRIANGLE
+        var triangle;
+        (function addTriangle() {
+            var geometry = new THREE.Geometry(); 
+            geometry.vertices.push(new THREE.Vector3( 0.0,  1.0, 0.0)); 
+            geometry.vertices.push(new THREE.Vector3(-1.0, -1.0, 0.0)); 
+            geometry.vertices.push(new THREE.Vector3( 1.0, -1.0, 0.0)); 
+            geometry.faces.push(new THREE.Face3(0, 1, 2)); 
+            geometry.faces[0].vertexColors[0] = new THREE.Color(0xFF0000); 
+            geometry.faces[0].vertexColors[1] = new THREE.Color(0x00FF00); 
+            geometry.faces[0].vertexColors[2] = new THREE.Color(0x0000FF);
+
+            var material = new THREE.MeshBasicMaterial({ vertexColors:THREE.VertexColors, side:THREE.DoubleSide });
+            triangle = new THREE.Mesh(geometry, material); 
+            triangle.position.set(-1.5, 0.0, 4.0); 
+            scene.add(triangle); 
         })();
 
         //camera.position.z = 5; // move the camera away from cube
         camera.position.set( 0, 0, 10 );
         camera.lookAt( 0, 0, 0 );
+
+        // RENDER
+        function animate() { // call render or animate loop
+            requestAnimationFrame( animate ); // like setInterval at monitor refresh rate
+            // ANIMATE
+            cube.rotation.x += 0.01;
+            cube.rotation.y += 0.01;
+            triangle.rotation.x += 0.01;
+            triangle.rotation.y += 0.01;
+            renderScene();
+        }
+        animate();
     };
     
 
     function renderScene() {
         renderer.render( scene, camera );
-    }
-
-
-    // RENDER
-    function animate() { // call render or animate loop
-        requestAnimationFrame( animate ); // like setInterval at monitor refresh rate
-        // ANIMATE
-        cube.rotation.x += 0.01;
-        cube.rotation.y += 0.01;
-        renderScene();
     }
 
 }( Site.Module || {}));
