@@ -1,13 +1,17 @@
 var Site = Site || {};
+Site.Module = Site.Module || {};
 
 (function (namespace){
     var scene;
     var camera;
     
-    initScene();
-    renderScene();
+    (function Main(){
+        initScene();
+        renderScene();
+    })();
     
     // SETUP
+    var cube;
     function initScene() {
         scene = new THREE.Scene();
         camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 500 );
@@ -20,30 +24,30 @@ var Site = Site || {};
         document.body.appendChild( renderer.domElement );
     
         // CUBE
-        var cube;
+        
         (function addCube() {
             var geometry = new THREE.BoxGeometry( 1, 1, 1 ); // vertices, faces
             var material = new THREE.MeshBasicMaterial( { color: 0x888888 } ); // green material
             cube = new THREE.Mesh( geometry, material ); // applies material to geometry
-        });
+        })();
     
-        // LINE
-        var line;
-        (function addLine() {
-            var geometry = new THREE.Geometry();
-            geometry.vertices.push(new THREE.Vector3( -10, 0, 0) );
-            geometry.vertices.push(new THREE.Vector3( 0, 10, 0) );
-            geometry.vertices.push(new THREE.Vector3( 10, 0, 0) );
+        // // LINE
+        // var line;
+        // (function addLine() {
+        //     var geometry = new THREE.Geometry();
+        //     geometry.vertices.push(new THREE.Vector3( -10, 0, 0) );
+        //     geometry.vertices.push(new THREE.Vector3( 0, 10, 0) );
+        //     geometry.vertices.push(new THREE.Vector3( 10, 0, 0) );
             
-            var material = new THREE.LineBasicMaterial( { color: 0x00f600 } );
-            line = new THREE.Line( geometry, material );
-        });
+        //     var material = new THREE.LineBasicMaterial( { color: 0x00f600 } );
+        //     line = new THREE.Line( geometry, material );
+        // });
     }
     
     // RENDER
     function renderScene() {
         scene.add( cube ); //add at co-ordinate(0,0,0)
-        scene.add( line );
+        //scene.add( line );
         renderer.render( scene, camera );
     }
     
@@ -55,4 +59,5 @@ var Site = Site || {};
         
     // }
     // animate();
-}( Site || {}));
+    
+}( Site.Module || {}));
