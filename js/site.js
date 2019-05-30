@@ -27,7 +27,7 @@ Site.Module = Site.Module || {};
         var cube;
         (function addCube() {
             var geometry = new THREE.BoxGeometry( 1, 1, 1 ); // vertices, faces
-            var neheTexture = new THREE.ImageUtils.loadTexture("/img/transpose_logo@2x.png");
+            var neheTexture = new THREE.TextureLoader("/img/transpose_logo@2x.png");
             var materials = [ 
                 new THREE.MeshBasicMaterial({color:0x00f600}), 
                 new THREE.MeshBasicMaterial({color:0x08F808}), 
@@ -36,8 +36,7 @@ Site.Module = Site.Module || {};
                 new THREE.MeshBasicMaterial({color:0x00FFFF}), 
                 new THREE.MeshBasicMaterial({color:0xFFFFFF}) 
             ];
-            var material = new THREE.MeshFaceMaterial(materials);
-            cube = new THREE.Mesh( geometry, material ); // applies material to geometry
+            cube = new THREE.Mesh( geometry, materials ); // applies material to geometry
             scene.add( cube ); //add at co-ordinate(0,0,0)
         })();
 
