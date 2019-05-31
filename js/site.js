@@ -82,10 +82,11 @@ Site.Module = Site.Module || {};
             cube.rotation.x += 0.01;
             cube.rotation.y += 0.01;
             cube.rotation.z += 0.01;
-            triangle.rotation.y += 0.01;
             renderScene();
         }
         animate();
+
+        window.onscroll = (e) => { window.scrollTo(0,0); triangle.rotation.y += 0.1; };
     };
     
 
