@@ -13,11 +13,31 @@ function Main() {
 	const scene = new THREE.Scene();
 	scene.background = new THREE.Color('black');
 
+	//TEXTURE
+	{
+		var loader = new THREE.TextureLoader();
+
+		var texture = loader.load('/Textures/Elephant Grain Black.jpg', function ( texture ) {
+			var material = new THREE.MeshBasicMaterial( { map: texture });
+		}, undefined, function ( error ) {
+			console.error ( error );
+		});
+
+		texture.repeat.set(20, 20);
+
+		const geometry = new THREE.PlaneBufferGeometry(40, 40);
+		const material = new THREE.MeshPhongMaterial({map: texture, side: THREE.DoubleSide,});
+		const mesh = new THREE.Mesh(geometry, material);
+
+		scene.add(mesh);
+	}
+
+	//LIGHT
 	{
 		const color = 0xFFFFFF;
 		const intensity = 1;
 		const light = new THREE.DirectionalLight(color, intensity);
-		light.position.set(-1, 2, 4);
+		light.position.set(-1, 5, 4);
 		scene.add(light);
 	}
 
@@ -42,14 +62,6 @@ function Main() {
 	renderer.gammaOutput = true;
 	renderer.gammaFactor = 2.2;
 
-	var texture = new THREE.TextureLoader();
-
-	texture.load('/Textures/Elephant Grain Black.jpg', function ( texture ) {
-		var material = new THREE.MeshBasicMaterial( { map: texture });
-	}, undefined, function ( error ) {
-		console.error ( error );
-	});
-
 	//material
 	//mesh(GLTF, material)
 	renderer.setSize( window.innerWidth, window.innerHeight );
@@ -63,5 +75,3 @@ function Main() {
 	requestAnimationFrame(render);
 }
 Main();
-
-window.onscroll = function(e) { window.scrollTo(0,0); camera.position.z += 10; console.log(camera.position.z) };
