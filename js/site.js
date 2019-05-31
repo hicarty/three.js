@@ -16,6 +16,13 @@ Site.Module = Site.Module || {};
         canvasWidth = window.innerWidth; 
         canvasHeight = window.innerHeight;
         scene = new THREE.Scene();
+        {
+            const color = 0xFFFFFF;
+            const intensity = 1;
+            const light = new THREE.DirectionalLight(color, intensity);
+            light.position.set(-1, 2, 4);
+            scene.add(light);
+        }
         camera = new THREE.PerspectiveCamera( 75, canvasWidth / canvasHeight, 0.1, 1000 );
         //(FOV [deg], aspect ratio, near clipping plane/render distance, far clipping plane/render distance)
 
@@ -30,11 +37,11 @@ Site.Module = Site.Module || {};
             var neheTexture = new THREE.TextureLoader("/img/transpose_logo@2x.png");
             var materials = [ 
                 new THREE.MeshBasicMaterial({color:0x00f600}), 
-                new THREE.MeshBasicMaterial({color:0x08F808}), 
-                new THREE.MeshBasicMaterial({color:0x0000FF}), 
-                new THREE.MeshBasicMaterial({color:0xFFFF00}), 
-                new THREE.MeshBasicMaterial({color:0x00FFFF}), 
-                new THREE.MeshBasicMaterial({color:0xFFFFFF}) 
+                new THREE.MeshPhongMaterial({color:0x08F808}), 
+                new THREE.MeshPhongMaterial({color:0x0000FF}), 
+                new THREE.MeshPhongMaterial({color:0xFFFF00}), 
+                new THREE.MeshPhongMaterial({color:0x00FFFF}), 
+                new THREE.MeshPhongMaterial({color:0xFFFFFF}) 
             ];
             cube = new THREE.Mesh( geometry, materials ); // applies material to geometry
             scene.add( cube ); //add at co-ordinate(0,0,0)

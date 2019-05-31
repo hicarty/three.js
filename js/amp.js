@@ -1,40 +1,67 @@
-var renderer = new THREE.WebGLRenderer();
-renderer.setSize( window.innerWidth, window.innerHeight );
-document.body.appendChild( renderer.domElement );
+function Main() {
+	const canvas = document.querySelector('#WebGLCanvas');
+	var renderer = new THREE.WebGLRenderer();
 
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );	
-camera.position.z = 100;
+	const fov = 75;
+	const aspect = window.innerWidth/window.innerHeight;
+	const near = 0.1;
+	const far = 100;
+	const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
 
+	camera.position.z = 1000;
 
-//var div = document.getElementById('WebGLCanvas');
+	const scene = new THREE.Scene();
 
-var loader = new THREE.GLTFLoader(); // Instantiate a loader
-
-// Load a glTF resource
-loader.load( '/models/dsl20c.gltf', function ( gltf ) {
-
-		scene.add( gltf.scene );
-
-	}, function ( xhr ) { // called while loading is progressing
-		console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-	}, function ( error ) {
-		console.log( 'An error happened' );
+	{
+		const color = 0xFFFFFF;
+		const intensity = 1;
+		const light = new THREE.DirectionalLight(color, intensity);
+		light.position.set(-1, 2, 4);
+		scene.add(light);
 	}
-);
 
-//texture
-renderer.gammaOutput = true;
-renderer.gammaFactor = 2.2;
+	//var div = document.getElementById('WebGLCanvas');
 
-var texture = new THREE.TextureLoader();
+	var loader = new THREE.GLTFLoader(); // Instantiate a loader
 
-texture.load('/Textures/Elephant Grain Black.jpg', function ( texture ) {
-	var material = new THREE.MeshBasicMaterial( { map: texture });
-}, undefined, function ( error ) {
-	console.error ( error );
-});
+	// Load a glTF resource
+	loader.load( '/models/dsl20c.gltf', function ( gltf ) {
 
-window.onscroll = (e) => { window.scrollTo(0,0); camera.position.z += 10; console.log(camera.position.z); };
-//material
-//mesh(GLTF, material)
+			scene.add( gltf.scene );
+
+		}, function ( xhr ) { // called while loading is progressing
+			console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+		}, function ( error ) {
+			console.log( 'An error happened' );
+		}
+	);
+
+	//texture
+	renderer.gammaOutput = true;
+	renderer.gammaFactor = 2.2;
+
+	var texture = new THREE.TextureLoader();
+
+	texture.load('/Textures/Elephant Grain Black.jpg', function ( texture ) {
+		var material = new THREE.MeshBasicMaterial( { map: texture });
+	}, undefined, function ( error ) {
+		console.error ( error );
+	});
+
+	//material
+	//mesh(GLTF, material)
+	renderer.setSize( window.innerWidth, window.innerHeight );
+
+	function render(time) {
+		time *= 0.001;
+
+		loader.rotation.x = time;
+
+		renderer.render(scene, camera);
+		requestAnimationFrame(render);
+	}
+	requestAnimationFrame(render);
+}
+Main();
+
+window.onscroll = function(e) { window.scrollTo(0,0); camera.position.z += 10; console.log(camera.position.z) };
