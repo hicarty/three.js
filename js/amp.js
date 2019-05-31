@@ -16,7 +16,7 @@ function Main() {
 	const scene = new THREE.Scene();
 	scene.background = new THREE.Color('black');
 
-	//TEXTURE
+	/*//TEXTURE
 	{
 		var loader = new THREE.TextureLoader();
 
@@ -34,6 +34,7 @@ function Main() {
 
 		scene.add(mesh);
 	}
+	*/
 
 	//LIGHT
 	{
